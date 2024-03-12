@@ -11,9 +11,11 @@ namespace NoteTakingApp.MVVM.ViewModel
     {
         public RelayCommand HomeViewCommand { get; set; }
         public RelayCommand NewNoteViewCommand { get; set; }
+        public RelayCommand AllNotesViewCommand { get; set; }
 
         public HomeViewModel HomeVM { get; set; }
         public NewNoteViewModel NewNoteVM { get; set; }
+        public AllNotesViewModel AllNotesVM { get; set; }
 
         private object _currentView;
 
@@ -31,6 +33,7 @@ namespace NoteTakingApp.MVVM.ViewModel
         { 
             HomeVM = new HomeViewModel();
             NewNoteVM = new NewNoteViewModel();
+            AllNotesVM = new AllNotesViewModel();
             CurrentView = HomeVM;
 
 
@@ -42,8 +45,12 @@ namespace NoteTakingApp.MVVM.ViewModel
             { 
                 CurrentView = NewNoteVM;
             });
+            AllNotesViewCommand = new RelayCommand(o =>
+            {
+                CurrentView = AllNotesVM;
+            });
 
-            
+
         }
     }
 }

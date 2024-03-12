@@ -6,11 +6,11 @@
         xmlns:local="clr-namespace:NoteTakingApp"
         xmlns:viewModel="clr-namespace:NoteTakingApp.MVVM.ViewModel"
         mc:Ignorable="d"
-        Height="600" Width="920"
+        WindowState="Maximized"
         WindowStyle="SingleBorderWindow"
         ResizeMode="CanResize"
         Background="Transparent"
-        AllowsTransparency="False">
+        AllowsTransparency="false">
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
@@ -55,11 +55,12 @@
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding NewNoteViewCommand}"/>
                 
-                <RadioButton Content="Recent"
+                <RadioButton Content="All Notes"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
-                             Style="{StaticResource MenuButtonTheme}"/>
+                             Style="{StaticResource MenuButtonTheme}"
+                             Command="{Binding AllNotesViewCommand}"/>
                 
             </StackPanel>
 

@@ -20,7 +20,11 @@
             <DataTemplate DataType="{x:Type viewModel:NewNoteViewModel}">
                 <view:NewNoteView/>
             </DataTemplate>
-            
+
+            <DataTemplate DataType="{x:Type viewModel:AllNotesViewModel}">
+                <view:NewNoteView/>
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
