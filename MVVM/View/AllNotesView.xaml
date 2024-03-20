@@ -6,8 +6,29 @@
              xmlns:local="clr-namespace:NoteTakingApp.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Background="Firebrick">
-    <Grid>
-            
+             Background="Transparent">
+    <Grid x:Name="gridMain">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="All Notes"
+           VerticalAlignment="Center"
+           HorizontalAlignment="Left"
+           Foreground="White"
+           FontSize="22"
+           Margin="20,0,0,0"
+           FontFamily="/Fonts/#Poppins"/>
+        <StackPanel x:Name ="leftStackPanel"
+                    Grid.Row="1">
+
+
+        </StackPanel>
+
     </Grid>
 </UserControl>

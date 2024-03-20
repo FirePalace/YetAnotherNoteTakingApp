@@ -22,7 +22,7 @@
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewModel:AllNotesViewModel}">
-                <view:NewNoteView/>
+                <view:AllNotesView/>
             </DataTemplate>
 
         </ResourceDictionary>

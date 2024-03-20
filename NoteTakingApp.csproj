@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <Folder Include="Images\" />
-    <Folder Include="MVVM\Model\" />
+    <Folder Include="NoteVault\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
+using NoteTakingApp.MVVM.Model;
 
 namespace NoteTakingApp.MVVM.View
 {
@@ -23,6 +25,12 @@ namespace NoteTakingApp.MVVM.View
         public NewNoteView()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainNoteWindow mainNoteWindow = new MainNoteWindow();
+            mainNoteWindow.Show();
         }
     }
 }

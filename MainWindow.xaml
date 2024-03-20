@@ -6,17 +6,16 @@
         xmlns:local="clr-namespace:NoteTakingApp"
         xmlns:viewModel="clr-namespace:NoteTakingApp.MVVM.ViewModel"
         mc:Ignorable="d"
-        WindowState="Maximized"
+        Height="600" Width="920"
         WindowStyle="SingleBorderWindow"
-        ResizeMode="CanResize"
+        ResizeMode="NoResize"
         Background="Transparent"
         AllowsTransparency="false">
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
 
-    <Border Background="#272537"
-            CornerRadius = "10">
+    <Border Background="#272537">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
