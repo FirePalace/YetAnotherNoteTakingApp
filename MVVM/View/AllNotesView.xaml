@@ -29,6 +29,17 @@
 
 
         </StackPanel>
-
+        <ComboBox x:Name="NoteSortCombobox"
+                  SelectionChanged="NoteSortCombobox_SelectionChanged"
+                  Grid.Column="1" 
+                  HorizontalAlignment="Left" 
+                  Margin="10,8,0,0" 
+                  VerticalAlignment="Top" 
+                  Width="120">
+            <ComboBoxItem>Name asc.</ComboBoxItem>
+            <ComboBoxItem>Name desc.</ComboBoxItem>
+            <ComboBoxItem>Date asc.</ComboBoxItem>
+            <ComboBoxItem>Date desc.</ComboBoxItem>
+        </ComboBox>
     </Grid>
 </UserControl>

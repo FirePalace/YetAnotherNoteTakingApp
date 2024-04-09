@@ -67,7 +67,7 @@
                 </Style>
             </StackPanel.Resources>
            
-            <TextBlock Text="Placeholder"
+            <TextBlock Text="Preview"
                        Foreground="White"
                        FontSize="20"
                        Margin="20,10,10,0"/>

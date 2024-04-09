@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteTakingApp.MVVM.Model"
         mc:Ignorable="d"
-        Title="Simple Text Editor" Height="700" Width="1150">
+        Title="Simple Text Editor" MinHeight="700" MinWidth="1150"
+        Background="#272537">
     <Grid>
         <Button x:Name="openFileBtn" 
-                Click="openFileBtn_Click"
+                Click="OpenFileBtn_Click"
                 Content="Open a Text File"
                 HorizontalAlignment="Left" 
                 Margin="69,93,0,0" 
@@ -17,7 +18,7 @@
                 Height="38"/>
 
         <Button x:Name="saveFileBtn"
-                Click="saveFileBtn_Click"
+                Click="SaveFileBtn_Click"
                 Content="Save a Text File"
                 HorizontalAlignment="Left"
                 Margin="69,156,0,0" 
@@ -30,7 +31,7 @@
                  BorderThickness="1" 
                  VerticalScrollBarVisibility="Auto" 
                  FontSize="14" 
-                 KeyDown="fileSpaceBox_KeyDown" 
+                 KeyDown="FileSpaceBox_KeyDown" 
                  HorizontalAlignment="Left" 
                  Height="550" 
                  Margin="225,93,0,0" 
@@ -53,7 +54,8 @@
         <TextBlock HorizontalAlignment="Left" 
                    Margin="614,28,0,0" 
                    TextWrapping="Wrap" 
-                   Text="File Name:"
-                   VerticalAlignment="Top"/>
+                   Text="File Name"
+                   VerticalAlignment="Top"
+                   Foreground="White"/>
     </Grid>
 </Window>

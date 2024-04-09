@@ -10,24 +10,20 @@ namespace NoteTakingApp.MVVM.Model
     /// </summary>
     public partial class MainNoteWindow : Window
     {
-        
         public readonly string defaultDirectory = @"D:\C# Projects\NoteTakingApp\NoteVault\";
         public string[] readText = new string[10000];
         public MainNoteWindow()
         {
             InitializeComponent();
         }
-        private void openFileBtn_Click(object sender, RoutedEventArgs e)
+        private void OpenFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog()
-            {
-                
-            };
+            OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.InitialDirectory = defaultDirectory;
             fileDialog.DefaultExt = "txt";
             fileDialog.Multiselect = false;
             bool? statusOK = fileDialog.ShowDialog();
-            
+
             if (statusOK == true && fileDialog.FileName != "")
             {
                 string fileDialogPath = fileDialog.FileName;
@@ -42,19 +38,23 @@ namespace NoteTakingApp.MVVM.Model
             }
         }
 
-        private void saveFileBtn_Click(object sender, RoutedEventArgs e)
+        private void SaveFileBtn_Click(object sender, RoutedEventArgs e)
         {
             if (fileNameBlock.Text == "")
             {
                 MessageBox.Show("Error: file name is empty");
             }
-            else
+            else if (!fileNameBlock.Text.Contains(".txt"))
             {
                 File.WriteAllText(defaultDirectory + fileNameBlock.Text + ".txt", fileSpaceBox.Text);
             }
+            else
+            {
+                File.WriteAllText(defaultDirectory + fileNameBlock.Text, fileSpaceBox.Text);
+            }
         }
 
-        private void fileSpaceBox_KeyDown(object sender, KeyEventArgs e)
+        private void FileSpaceBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -62,6 +62,16 @@ namespace NoteTakingApp.MVVM.Model
                 fileSpaceBox.Text = fileSpaceBox.Text.Insert(caretIndex, "\n");
                 fileSpaceBox.CaretIndex = caretIndex + 1;
             }
+        }
+        public void OpenFileFromAllNotesView(object sender)
+        {
+            string button = sender.ToString().Split(":")[1].Replace(" ", "");
+            readText = File.ReadAllLines(defaultDirectory + button);
+            for (int i = 0; i < readText.Length; i++)
+            {
+                fileSpaceBox.Text += readText[i] + '\n';
+            }
+            fileNameBlock.Text = button.Split(".")[0];
         }
     }
 }
