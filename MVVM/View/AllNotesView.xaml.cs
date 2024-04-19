@@ -19,17 +19,6 @@ namespace NoteTakingApp.MVVM.View
 
 
         }
-        static string DeleteBeforeLastOccurrence(string input, char target)
-        {
-
-            int lastIndex = input.LastIndexOf(target);
-            if (lastIndex >= 0)
-            {
-                return input.Substring(lastIndex + 1);
-            }
-
-            return input;
-        }
         private void LoadAllNotes()
         {
             LoadAllNotes(0);
