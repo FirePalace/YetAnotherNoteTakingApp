@@ -10,7 +10,10 @@
     <Grid x:Name="gridMain">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -25,21 +28,38 @@
            Margin="20,0,0,0"
            FontFamily="/Fonts/#Poppins"/>
         <StackPanel x:Name ="leftStackPanel"
-                    Grid.Row="1">
+                    Grid.Row="1"
+                    Grid.Column="0"/>
+        <StackPanel x:Name ="leftMiddleStackPanel"
+            Grid.Row="1"
+                    Grid.Column="1"/>
+        <StackPanel x:Name ="rightMiddleStackPanel"
+            Grid.Row="1"
+                    Grid.Column="2"/>
+        <StackPanel x:Name ="rightStackPanel"
+            Grid.Row="1"
+                    Grid.Column="3"/>
 
-
-        </StackPanel>
         <ComboBox x:Name="NoteSortCombobox"
                   SelectionChanged="NoteSortCombobox_SelectionChanged"
+                  PreviewMouseDown="NoteSortCombobox_PreviewMouseDown"
                   Grid.Column="1" 
-                  HorizontalAlignment="Left" 
-                  Margin="10,8,0,0" 
-                  VerticalAlignment="Top" 
-                  Width="120">
-            <ComboBoxItem>Name asc.</ComboBoxItem>
+                  HorizontalAlignment="Center" 
+                  VerticalAlignment="Center" 
+                  Width="120"
+                  SelectedIndex="0">
+            <ComboBoxItem >Name asc.</ComboBoxItem>
             <ComboBoxItem>Name desc.</ComboBoxItem>
             <ComboBoxItem>Date asc.</ComboBoxItem>
             <ComboBoxItem>Date desc.</ComboBoxItem>
         </ComboBox>
+        <TextBox Grid.Column="2"
+                 x:Name="AllNotesSearchBox"
+                 HorizontalAlignment="Center"  
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Center"
+                 Width="200"
+                 TextChanged="AllNotesSearchBox_TextChanged"
+                 Style="{StaticResource ModernTextbox}"/>
     </Grid>
 </UserControl>

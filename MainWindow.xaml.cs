@@ -1,13 +1,7 @@
-﻿using System.Text;
+﻿using NoteTakingApp.MVVM.View;
+using NoteTakingApp.MVVM.ViewModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NoteTakingApp
 {
@@ -19,6 +13,34 @@ namespace NoteTakingApp
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void SearchAllNotes_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                AllNotesView.searchText = SearchAllNotes.Text;
+
+                MainViewModel viewModel = (MainViewModel)DataContext;
+
+                if (!viewModel.CurrentView.ToString().Contains("AllNotesViewModel"))
+                {
+                    if (viewModel.AllNotesViewCommand.CanExecute(null))
+                    {
+                        viewModel.AllNotesViewCommand.Execute(null);
+                        allNotesButton.IsChecked = true;
+
+                    }
+                }
+                else
+                {
+                    AllNotesView.allNotesView.SearchFromMainWindow(SearchAllNotes.Text);
+                }
+
+
+
+            }
+
         }
     }
 }

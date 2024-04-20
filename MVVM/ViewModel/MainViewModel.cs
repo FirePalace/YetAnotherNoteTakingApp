@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NoteTakingApp.Core;
+﻿using NoteTakingApp.Core;
 
 namespace NoteTakingApp.MVVM.ViewModel
 {
+    public class MainViewModelHelper
+    {
+
+
+    }
     internal class MainViewModel : ObservableObject
     {
         public RelayCommand HomeViewCommand { get; set; }
@@ -22,27 +22,29 @@ namespace NoteTakingApp.MVVM.ViewModel
         public object CurrentView
         {
             get { return _currentView; }
-            set 
-            { 
-                _currentView = value; 
+            set
+            {
+
+                _currentView = value;
                 OnPropertyChanged();
             }
         }
 
-        public MainViewModel() 
-        { 
+        public MainViewModel()
+        {
+
             HomeVM = new HomeViewModel();
             NewNoteVM = new NewNoteViewModel();
             AllNotesVM = new AllNotesViewModel();
             CurrentView = HomeVM;
 
 
-            HomeViewCommand = new RelayCommand(o => 
-            { 
+            HomeViewCommand = new RelayCommand(o =>
+            {
                 CurrentView = HomeVM;
             });
-            NewNoteViewCommand = new RelayCommand(o => 
-            { 
+            NewNoteViewCommand = new RelayCommand(o =>
+            {
                 CurrentView = NewNoteVM;
             });
             AllNotesViewCommand = new RelayCommand(o =>

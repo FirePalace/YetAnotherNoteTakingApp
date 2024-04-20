@@ -55,6 +55,7 @@
                              Command="{Binding NewNoteViewCommand}"/>
                 
                 <RadioButton Content="All Notes"
+                             x:Name="allNotesButton"
                              Height="50"
                              Foreground="White"
                              FontSize="14"
@@ -65,11 +66,14 @@
 
             <TextBox Width="250"
                      Height="40"
+                     x:Name="SearchAllNotes"
                      VerticalContentAlignment="Center"
                      HorizontalAlignment="Left"
                      Margin="5"
                      Grid.Column="1"
-                     Style="{StaticResource ModernTextbox}"/>
+                     KeyDown="SearchAllNotes_KeyDown"
+                     Style="{StaticResource ModernTextbox}"
+                     />
             
             <ContentControl Grid.Row="1"
                             Grid.Column="1"

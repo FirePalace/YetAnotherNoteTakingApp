@@ -5,25 +5,37 @@ using System.Windows.Controls;
 
 namespace NoteTakingApp.MVVM.View
 {
+
     /// <summary>
     /// Interaction logic for AllNotesView.xaml
     /// </summary>
     public partial class AllNotesView : UserControl
     {
+        public static string searchText = "";
+        public static AllNotesView allNotesView;
         public readonly string noteVaultPath = "D:\\C# Projects\\NoteTakingApp\\NoteVault\\";
         public List<FileInfo> allFileNames = new List<FileInfo>();
+        bool isUserInteraction;
+
+
         public AllNotesView()
         {
+
             InitializeComponent();
-            LoadAllNotes();
+            allNotesView = this;
+            if (searchText != "")
+            {
+                SearchFromMainWindow(searchText);
+                searchText = "";
+            }
+            else
+            {
+                SortAllNotes(0);
 
+            }
 
         }
-        private void LoadAllNotes()
-        {
-            LoadAllNotes(0);
-        }
-        private void LoadAllNotes(int SelectedSortingObjectNumber)
+        public void LoadAllNotes()
         {
             allFileNames.Clear();
             string[] allFilePaths = Directory.GetFiles(noteVaultPath);
@@ -31,13 +43,17 @@ namespace NoteTakingApp.MVVM.View
             {
                 FileInfo fileInfo = new FileInfo(file);
                 allFileNames.Add(fileInfo);
+
             }
-
-
+        }
+        private void SortAllNotes(int SelectedSortingObjectNumber)
+        {
+            LoadAllNotes();
             switch (SelectedSortingObjectNumber)
             {
                 case 0:
                     allFileNames.OrderBy(o => o.Name);
+
                     break;
                 case 1:
                     allFileNames.OrderBy(o => o.Name);
@@ -45,19 +61,28 @@ namespace NoteTakingApp.MVVM.View
                     break;
                 case 2:
                     allFileNames.OrderBy(o => o.LastAccessTime);
+
                     break;
                 case 3:
                     allFileNames.OrderBy(o => o.LastAccessTime);
                     allFileNames.Reverse();
                     break;
 
+
             }
             DisplayAllNotes();
         }
         private void DisplayAllNotes()
         {
-            leftStackPanel.Children.Clear();
-            foreach (FileInfo file in allFileNames)
+            DisplayAllNotes(allFileNames);
+        }
+        private void DisplayAllNotes(List<FileInfo> allFileInfo)
+        {
+            int count = 0;
+            ClearAllColumns();
+
+
+            foreach (FileInfo file in allFileInfo)
             {
 
                 Button button = new Button
@@ -66,57 +91,119 @@ namespace NoteTakingApp.MVVM.View
                     Name = file.Name.Split('.')[0],
                     Height = 30,
                     Width = 100,
-                    HorizontalAlignment = System.Windows.HorizontalAlignment.Left
+                    HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+                    Tag = file.FullName
                 };
                 button.Click += Button_Click;
-                leftStackPanel.Children.Add(button);
-
+                if (count <= 13)
+                {
+                    leftStackPanel.Children.Add(button);
+                }
+                else if (count > 13 && count <= 26)
+                {
+                    leftMiddleStackPanel.Children.Add(button);
+                }
+                else if (count > 26 && count <= 39)
+                {
+                    rightMiddleStackPanel.Children.Add(button);
+                }
+                else
+                {
+                    rightStackPanel.Children.Add(button);
+                }
+                count++;
             }
-            //Console.ReadLine();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
             MainNoteWindow mainNoteWindow = new MainNoteWindow();
             mainNoteWindow.Show();
-            mainNoteWindow.OpenFileFromAllNotesView(sender);
+            mainNoteWindow.OpenFilesFromMainView(sender);
         }
-
+        private void NoteSortCombobox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            isUserInteraction = true;
+        }
         private void NoteSortCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var test = e.AddedItems;
-            if (test.Count == 1)
+            if (isUserInteraction)
             {
+                ComboBox comboBox = (ComboBox)sender;
+                if (!comboBox.IsLoaded) return;
 
-                foreach (var item in test)
+                var test = e.AddedItems;
+                if (test.Count == 1)
                 {
-                    if (item.ToString().Contains("Name asc."))
+
+                    foreach (var item in test)
                     {
-                        LoadAllNotes(0);
+                        if (item.ToString().Contains("Name asc."))
+                        {
+                            SortAllNotes(0);
+                        }
+                        else if (item.ToString().Contains("Name desc."))
+                        {
+                            SortAllNotes(1);
+                        }
+                        else if (item.ToString().Contains("Date asc."))
+                        {
+                            SortAllNotes(2);
+                        }
+                        else if (item.ToString().Contains("Date desc."))
+                        {
+                            SortAllNotes(3);
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Something went wrong");
+                        }
                     }
-                    else if (item.ToString().Contains("Name desc."))
+                }
+                else
+                {
+                    throw new ArgumentException("Incorrect amount of objects selected.");
+                }
+                isUserInteraction = false;
+            }
+
+        }
+
+        private void AllNotesSearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string text = AllNotesSearchBox.Text;
+            LoadAllNotes();
+            allFileNames.RemoveAll(o => !o.Name.Split(".")[0].Contains(text));
+            DisplayAllNotes();
+        }
+        public void SearchFromMainWindow(string searchTerm)
+        {
+            List<FileInfo> modifiedFileInfoList = new List<FileInfo>();
+            try
+            {
+                LoadAllNotes();
+                foreach (var item in allFileNames)
+                {
+                    string fileContents = File.ReadAllText(item.FullName);
+                    if (fileContents.Contains(searchTerm))
                     {
-                        LoadAllNotes(1);
-                    }
-                    else if (item.ToString().Contains("Date asc."))
-                    {
-                        LoadAllNotes(2);
-                    }
-                    else if (item.ToString().Contains("Date desc."))
-                    {
-                        LoadAllNotes(3);
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Something went wrong");
+                        modifiedFileInfoList.Add(item);
                     }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                throw new ArgumentException("Incorrect amount of objects selected.");
+                throw new ArgumentException("Loading files Failed because: " + ex);
             }
-
+            DisplayAllNotes(modifiedFileInfoList);
+        }
+        private void ClearAllColumns()
+        {
+            leftStackPanel.Children.Clear();
+            leftMiddleStackPanel.Children.Clear();
+            rightMiddleStackPanel.Children.Clear();
+            rightStackPanel.Children.Clear();
         }
     }
 }

@@ -63,7 +63,28 @@ namespace NoteTakingApp.MVVM.Model
                 fileSpaceBox.CaretIndex = caretIndex + 1;
             }
         }
-        public void OpenFileFromAllNotesView(object sender)
+        public string DeleteBeforeLastOccurrence(string input, char target)
+        {
+
+            int lastIndex = input.LastIndexOf(target);
+            if (lastIndex >= 0)
+            {
+                return input.Substring(lastIndex + 1);
+            }
+
+            return input;
+        }
+        public void OpenFilesFromMainView(string FullFileName)
+        {
+            readText = File.ReadAllLines(FullFileName);
+            for (int i = 0; i < readText.Length; i++)
+            {
+                fileSpaceBox.Text += readText[i] + '\n';
+            }
+            string fileName = DeleteBeforeLastOccurrence(FullFileName, '\\');
+            fileNameBlock.Text = fileName.Split(".")[0];
+        }
+        public void OpenFilesFromMainView(object sender)
         {
             string button = sender.ToString().Split(":")[1].Replace(" ", "");
             readText = File.ReadAllLines(defaultDirectory + button);

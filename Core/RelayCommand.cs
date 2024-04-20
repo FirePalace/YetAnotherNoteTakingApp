@@ -1,6 +1,5 @@
 ﻿
 using System.Windows.Input;
-using System;
 
 
 namespace NoteTakingApp.Core
