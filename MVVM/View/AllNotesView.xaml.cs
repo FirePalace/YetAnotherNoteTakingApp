@@ -13,7 +13,8 @@ namespace NoteTakingApp.MVVM.View
     {
         public static string searchText = "";
         public static AllNotesView allNotesView;
-        public readonly string noteVaultPath = "D:\\C# Projects\\NoteTakingApp\\NoteVault\\";
+        public static string noteVaultPath = "";
+
         public List<FileInfo> allFileNames = new List<FileInfo>();
         bool isUserInteraction;
 
@@ -22,6 +23,7 @@ namespace NoteTakingApp.MVVM.View
         {
 
             InitializeComponent();
+            noteVaultPath = SetNoteDirectory();
             allNotesView = this;
             if (searchText != "")
             {
@@ -34,6 +36,11 @@ namespace NoteTakingApp.MVVM.View
 
             }
 
+        }
+        private string SetNoteDirectory()
+        {
+            string noteDirectory = Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory().ToString()).ToString()).ToString()).ToString();
+            return noteDirectory + "\\NoteVault\\";
         }
         public void LoadAllNotes()
         {
@@ -194,7 +201,7 @@ namespace NoteTakingApp.MVVM.View
             }
             catch (Exception ex)
             {
-                throw new ArgumentException("Loading files Failed because: " + ex);
+                throw new ArgumentException("Loading files failed because: " + ex);
             }
             DisplayAllNotes(modifiedFileInfoList);
         }

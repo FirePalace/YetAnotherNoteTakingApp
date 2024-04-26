@@ -15,6 +15,7 @@ namespace NoteTakingApp.MVVM.Model
         public MainNoteWindow()
         {
             InitializeComponent();
+            defaultDirectory = SetNoteDirectory();
         }
         private void OpenFileBtn_Click(object sender, RoutedEventArgs e)
         {

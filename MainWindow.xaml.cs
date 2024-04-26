@@ -29,7 +29,6 @@ namespace NoteTakingApp
                     {
                         viewModel.AllNotesViewCommand.Execute(null);
                         allNotesButton.IsChecked = true;
-
                     }
                 }
                 else
