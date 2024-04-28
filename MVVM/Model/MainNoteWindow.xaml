@@ -26,7 +26,7 @@
                 Width="117" 
                 Height="38"/>
 
-        <TextBox x:Name="fileSpaceBox" 
+        <RichTextBox x:Name="fileSpaceBox" 
                  BorderBrush="Black" 
                  BorderThickness="1" 
                  VerticalScrollBarVisibility="Auto" 
@@ -34,9 +34,7 @@
                  KeyDown="FileSpaceBox_KeyDown" 
                  HorizontalAlignment="Left" 
                  Height="550" 
-                 Margin="225,93,0,0" 
-                 TextWrapping="Wrap" 
-                 Text="" 
+                 Margin="225,93,0,0"  
                  VerticalAlignment="Top" 
                  Width="890"/>
 
@@ -57,5 +55,15 @@
                    Text="File Name"
                    VerticalAlignment="Top"
                    Foreground="White"/>
+        <TextBox Width="203"
+         Height="40"
+         x:Name="KeyWordSearch"
+         VerticalContentAlignment="Center"
+         HorizontalAlignment="Left"
+         Margin="17,226,0,418"
+         SelectionChanged="KeyWordSearch_SelectionChanged"
+         Style="{StaticResource ModernTextbox}"
+          
+         />
     </Grid>
 </Window>

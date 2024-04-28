@@ -1,105 +1,207 @@
  Title="Super Simple Text Editor" Height="700" Width="1150">
+
     <Grid>
+
         <Button Name="openFileBtn" 
+
                 Click="openFileBtn_Click"
+
                 Content="Open a Text File"
+
                 HorizontalAlignment="Left" 
+
                 Margin="69,93,0,0" 
+
                 VerticalAlignment="Top" 
+
                 Width="117" 
+
                 Height="38"/>
-        
         <Button Name="saveFileBtn"cccs
+
                 Click="saveFileBtn_Click"
+
                 Content="Save a Text File"
+
                 HorizontalAlignment="Left"
+
                 Margin="69,156,0,0" 
+
                 VerticalAlignment="Top"
+
                 Width="117" 
+
                 Height="38"/>
+
         
+
         <TextBox Name="fileSpaceBox" 
+
                  BorderBrush="Black" 
+
                  BorderThickness="1" 
+
                  VerticalScrollBarVisibility="Auto" 
+
                  FontSize="14" 
+
                  KeyDown="fileSpaceBox_KeyDown" 
+
                  HorizontalAlignment="Left" 
+
                  Height="550" 
+
                  Margin="225,93,0,0" 
+
                  TextWrapping="Wrap" 
+
                  Text="" 
+
                  VerticalAlignment="Top" 
+
                  Width="890"/>
+
         
+
         <TextBlock Name="fileNameBlock"
+
                    Background="LightGray" 
+
                    FontSize="14" 
+
                    ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+
                    HorizontalAlignment="Left" 
+
                    Margin="225,49,0,0" 
+
                    TextWrapping="Wrap" 
+
                    Text="" 
+
                    VerticalAlignment="Top" 
+
                    Width="890" 
+
                    Height="25"/>
+
         
+
         <TextBlock HorizontalAlignment="Left" 
+
                    Margin="614,28,0,0" 
+
                    TextWrapping="Wrap" 
+
                    Text="File Name:"
+
                    VerticalAlignment="Top"/>
+
     </Grid>
+
 </Window>
 
 
 
+
+
+
+
  public partial class MainNoteWindow : Window
+
     {
+
         public string fileDialogName = "";
+
         public string[] readText = new string[1000];
+
         public MainNoteWindow()
+
         {
+
             InitializeComponent();
+
         }
+
         private void openFileBtn_Click(object sender, RoutedEventArgs e)
+
         {
+
             var fileDialog = new OpenFileDialog();
+
             fileDialog.InitialDirectory = @"C:\SampleTxtDocs";
+
             fileDialog.DefaultExt = "txt";
+
             fileDialog.Filter = "(*.txt)|";
+
             fileDialog.Multiselect = false;
+
             fileDialog.ShowDialog();
+
             fileDialogName = fileDialog.FileName;
+
             if (fileDialogName != "")
+
             {
+
                 fileNameBlock.Text = "";
+
                 fileSpaceBox.Text = "";
+
                 fileNameBlock.Text = fileDialogName;
+
                 readText = File.ReadAllLines(fileDialogName);
+
                 for (int i = 0; i < readText.Length; i++)
+
                 {
+
                     fileSpaceBox.Text += readText[i] + '\n';
+
                 }
+
             }
+
         }
+
+
 
         private void saveFileBtn_Click(object sender, RoutedEventArgs e)
+
         {
+
             if (fileDialogName != "")
+
             {
+
                 File.WriteAllText(fileDialogName, fileSpaceBox.Text);
+
             }
+
         }
 
+
+
         private void fileSpaceBox_KeyDown(object sender, KeyEventArgs e)
+
         {
+
             if (e.Key == Key.Enter)
+
             {
+
                 var caretIndex = fileSpaceBox.CaretIndex;
+
                 fileSpaceBox.Text = fileSpaceBox.Text.Insert(caretIndex, "\n");
+
                 fileSpaceBox.CaretIndex = caretIndex + 1;
+
             }
+
         }
+
     }
+
 }
+

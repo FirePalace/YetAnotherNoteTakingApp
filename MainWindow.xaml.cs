@@ -35,9 +35,6 @@ namespace NoteTakingApp
                 {
                     AllNotesView.allNotesView.SearchFromMainWindow(SearchAllNotes.Text);
                 }
-
-
-
             }
 
         }
