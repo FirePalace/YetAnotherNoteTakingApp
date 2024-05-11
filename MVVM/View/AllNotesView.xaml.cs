@@ -12,8 +12,10 @@ namespace NoteTakingApp.MVVM.View
     public partial class AllNotesView : UserControl
     {
         public static string searchText = "";
+        public static string lastSearchText = "";
         public static AllNotesView allNotesView;
         public static string noteVaultPath = "";
+        static bool lastSearchTexthasBeenCalledOnce = false;
 
         public List<FileInfo> allFileNames = new List<FileInfo>();
         bool isUserInteraction;
@@ -27,8 +29,9 @@ namespace NoteTakingApp.MVVM.View
             allNotesView = this;
             if (searchText != "")
             {
+                lastSearchText = searchText;
                 SearchFromMainWindow(searchText);
-                searchText = "";
+                
             }
             else
             {
@@ -128,6 +131,12 @@ namespace NoteTakingApp.MVVM.View
             MainNoteWindow mainNoteWindow = new MainNoteWindow();
             mainNoteWindow.Show();
             mainNoteWindow.OpenFilesFromMainView(sender);
+
+            if (searchText != "")
+            {
+                mainNoteWindow.KeyWordSearch.Text = searchText;
+            }
+
         }
         private void NoteSortCombobox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
