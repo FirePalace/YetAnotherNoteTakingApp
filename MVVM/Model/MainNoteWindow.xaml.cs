@@ -3,7 +3,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NoteTakingApp.MVVM.Model
@@ -29,7 +28,7 @@ namespace NoteTakingApp.MVVM.Model
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.InitialDirectory = defaultDirectory;
-            fileDialog.DefaultExt = "txt";
+            fileDialog.DefaultExt = "rtf";
             fileDialog.Multiselect = false;
             bool? statusOK = fileDialog.ShowDialog();
 
@@ -38,12 +37,8 @@ namespace NoteTakingApp.MVVM.Model
                 string fileDialogPath = fileDialog.FileName;
                 fileNameBlock.Text = "";
                 fileSpaceBox.Document.Blocks.Clear();
-                fileNameBlock.Text = fileDialog.SafeFileName;
-                readText = File.ReadAllLines(fileDialogPath);
-                for (int i = 0; i < readText.Length; i++)
-                {
-                    fileSpaceBox.Document.Blocks.Add(new Paragraph(new Run(readText[i])));
-                }
+                FileStream streamToRtfFile = new FileStream(fileDialogPath, FileMode.Open);
+                fileSpaceBox.Selection.Load(streamToRtfFile, DataFormats.Rtf);
             }
         }
 
@@ -54,15 +49,28 @@ namespace NoteTakingApp.MVVM.Model
             {
                 MessageBox.Show("Error: file name is empty");
             }
-            else if (!fileNameBlock.Text.Contains(".txt"))
+            else if (!fileNameBlock.Text.Contains(".rtf"))
             {
-                File.WriteAllText(defaultDirectory + fileNameBlock.Text + ".txt", richText);
+                SaveRichTextBox(".rtf");
+
             }
             else
             {
-                File.WriteAllText(defaultDirectory + fileNameBlock.Text, richText);
+                SaveRichTextBox("");
             }
         }
+
+        public void SaveRichTextBox(string rtf)
+        {
+
+            TextRange t = new TextRange(fileSpaceBox.Document.ContentStart, fileSpaceBox.Document.ContentEnd);
+            using (FileStream file = new FileStream(defaultDirectory + fileNameBlock.Text + rtf, FileMode.Create))
+            {
+                t.Save(file, System.Windows.DataFormats.Rtf);
+            }
+
+        }
+
 
         public string DeleteBeforeLastOccurrence(string input, char target)
         {
@@ -75,26 +83,30 @@ namespace NoteTakingApp.MVVM.Model
 
             return input;
         }
+        public string DeleteFirstOccurance(string originalString, string stringToRemove)
+        {
+            int index = originalString.IndexOf(stringToRemove);
+            if (index != -1)
+            {
+                originalString = originalString.Remove(index, stringToRemove.Length);
+            }
+            return originalString;
+        }
         public void OpenFilesFromMainView(string FullFileName)
         {
 
-            readText = File.ReadAllLines(FullFileName);
-            for (int i = 0; i < readText.Length; i++)
-            {
-                fileSpaceBox.Document.Blocks.Add(new Paragraph(new Run(readText[i])));
-            }
+            FileStream streamToRtfFile = new FileStream(FullFileName, FileMode.Open);
+            fileSpaceBox.Selection.Load(streamToRtfFile, DataFormats.Rtf);
             string fileName = DeleteBeforeLastOccurrence(FullFileName, '\\');
             fileNameBlock.Text = fileName.Split(".")[0];
         }
         public void OpenFilesFromMainView(object sender)
         {
 
-            string button = sender.ToString().Split(":")[1].Replace(" ", "");
-            readText = File.ReadAllLines(defaultDirectory + button);
-            for (int i = 0; i < readText.Length; i++)
-            {
-                fileSpaceBox.Document.Blocks.Add(new Paragraph(new Run(readText[i])));
-            }
+            string button = sender.ToString().Split(":")[1];
+            button = DeleteFirstOccurance(button, " ");
+            FileStream streamToRtfFile = new FileStream(defaultDirectory + button, FileMode.Open);
+            fileSpaceBox.Selection.Load(streamToRtfFile, DataFormats.Rtf);
             fileNameBlock.Text = button.Split(".")[0];
         }
 

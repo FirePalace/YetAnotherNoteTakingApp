@@ -13,7 +13,7 @@
                    FontSize="20" Margin="241,144,263,144"
                    FontFamily="/Fonts/#Poppins">
         </TextBlock>
-        <Button Content=".txt" 
+        <Button Content=".rtf" 
                 HorizontalAlignment="Left" 
                 Margin="283,0,0,0" 
                 VerticalAlignment="Center" 

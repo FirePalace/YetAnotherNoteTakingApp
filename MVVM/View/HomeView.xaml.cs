@@ -40,13 +40,13 @@ namespace NoteTakingApp.MVVM.View
             previewStackPanel.Children.Clear();
             foreach (FileInfo file in allFileNames)
             {
-
-
+                
                 Button button = new Button
                 {
 
 
-                    Name = file.Name.Split('.')[0],
+                    Name = file.Name.Split('.')[0].Replace(" ", "_"),
+
                     Tag = file.FullName,
                     Height = 150,
                     Width = 150,

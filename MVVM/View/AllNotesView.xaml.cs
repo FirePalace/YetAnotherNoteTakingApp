@@ -16,6 +16,7 @@ namespace NoteTakingApp.MVVM.View
         public static AllNotesView allNotesView;
         public static string noteVaultPath = "";
         static bool lastSearchTexthasBeenCalledOnce = false;
+        
 
         public List<FileInfo> allFileNames = new List<FileInfo>();
         bool isUserInteraction;
@@ -98,7 +99,7 @@ namespace NoteTakingApp.MVVM.View
                 Button button = new Button
                 {
                     Content = file.Name,
-                    Name = file.Name.Split('.')[0],
+                    Name = file.Name.Split('.')[0].Replace(" ","_"),
                     Height = 30,
                     Width = 100,
                     HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
