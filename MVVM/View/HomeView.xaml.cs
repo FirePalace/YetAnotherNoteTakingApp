@@ -12,12 +12,18 @@ namespace NoteTakingApp.MVVM.View
     public partial class HomeView : UserControl
     {
         public List<FileInfo> allFileNames = new List<FileInfo>();
-        public readonly string noteVaultPath = "D:\\C# Projects\\NoteTakingApp\\NoteVault\\";
+        public readonly string noteVaultPath = "";
         public HomeView()
         {
             InitializeComponent();
+            noteVaultPath = SetNoteDirectory();
             LoadPreview();
 
+        }
+        private string SetNoteDirectory()
+        {
+            string noteDirectory = Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory().ToString()).ToString()).ToString()).ToString();
+            return noteDirectory + @"\NoteVault\";
         }
         private void LoadPreview()
         {

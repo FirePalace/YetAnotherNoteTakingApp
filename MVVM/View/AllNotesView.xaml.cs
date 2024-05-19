@@ -1,5 +1,6 @@
 ﻿using NoteTakingApp.MVVM.Model;
 using System.IO;
+using System.Net.Sockets;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,14 +17,14 @@ namespace NoteTakingApp.MVVM.View
         public static AllNotesView allNotesView;
         public static string noteVaultPath = "";
         static bool lastSearchTexthasBeenCalledOnce = false;
-        
+        public static List<string> openNotes = new List<string>();
 
         public List<FileInfo> allFileNames = new List<FileInfo>();
         bool isUserInteraction;
 
 
         public AllNotesView()
-        {
+        { 
 
             InitializeComponent();
             noteVaultPath = SetNoteDirectory();
@@ -103,18 +104,20 @@ namespace NoteTakingApp.MVVM.View
                     Height = 30,
                     Width = 100,
                     HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
-                    Tag = file.FullName
+                    Tag = file.FullName,
+                    Style = this.FindResource("CyanButton") as Style
+
                 };
                 button.Click += Button_Click;
-                if (count <= 13)
+                if (count <= 11)
                 {
                     leftStackPanel.Children.Add(button);
                 }
-                else if (count > 13 && count <= 26)
+                else if (count > 11 && count <= 22)
                 {
                     leftMiddleStackPanel.Children.Add(button);
                 }
-                else if (count > 26 && count <= 39)
+                else if (count > 23 && count <= 33)
                 {
                     rightMiddleStackPanel.Children.Add(button);
                 }
@@ -128,14 +131,25 @@ namespace NoteTakingApp.MVVM.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Button button = sender as Button;
 
-            MainNoteWindow mainNoteWindow = new MainNoteWindow();
-            mainNoteWindow.Show();
-            mainNoteWindow.OpenFilesFromMainView(sender);
-
-            if (searchText != "")
+            if (!openNotes.Contains(button.Tag.ToString()))
             {
-                mainNoteWindow.KeyWordSearch.Text = searchText;
+                
+                openNotes.Add(button.Tag.ToString());
+
+                MainNoteWindow mainNoteWindow = new MainNoteWindow();
+                mainNoteWindow.Show();
+                mainNoteWindow.OpenFilesFromMainView(sender);
+
+                if (searchText != "")
+                {
+                    mainNoteWindow.KeyWordSearch.Text = searchText;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Note is allready open");
             }
 
         }

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Win32;
+using NoteTakingApp.MVVM.View;
+using System.ComponentModel;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -12,11 +14,13 @@ namespace NoteTakingApp.MVVM.Model
     /// </summary>
     public partial class MainNoteWindow : Window
     {
-        public readonly string defaultDirectory = @"D:\C# Projects\NoteTakingApp\NoteVault\";
+        public readonly string defaultDirectory = "";
         public string[] readText = new string[10000];
+        private string currentNote = "";
         public MainNoteWindow()
         {
             InitializeComponent();
+            Closing += OnWindowClosing;
             defaultDirectory = SetNoteDirectory();
         }
         private string SetNoteDirectory()
@@ -44,7 +48,7 @@ namespace NoteTakingApp.MVVM.Model
 
         private void SaveFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            string richText = new TextRange(fileSpaceBox.Document.ContentStart, fileSpaceBox.Document.ContentEnd).Text;
+
             if (fileNameBlock.Text == "")
             {
                 MessageBox.Show("Error: file name is empty");
@@ -52,11 +56,13 @@ namespace NoteTakingApp.MVVM.Model
             else if (!fileNameBlock.Text.Contains(".rtf"))
             {
                 SaveRichTextBox(".rtf");
+                MessageBox.Show("File Saved");
 
             }
             else
             {
                 SaveRichTextBox("");
+                MessageBox.Show("File Saved");
             }
         }
 
@@ -99,15 +105,23 @@ namespace NoteTakingApp.MVVM.Model
             fileSpaceBox.Selection.Load(streamToRtfFile, DataFormats.Rtf);
             string fileName = DeleteBeforeLastOccurrence(FullFileName, '\\');
             fileNameBlock.Text = fileName.Split(".")[0];
+            streamToRtfFile.Close();
         }
         public void OpenFilesFromMainView(object sender)
         {
 
             string button = sender.ToString().Split(":")[1];
             button = DeleteFirstOccurance(button, " ");
+            currentNote = defaultDirectory + button;
             FileStream streamToRtfFile = new FileStream(defaultDirectory + button, FileMode.Open);
             fileSpaceBox.Selection.Load(streamToRtfFile, DataFormats.Rtf);
             fileNameBlock.Text = button.Split(".")[0];
+            streamToRtfFile.Close();
+        }
+        public void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            AllNotesView.openNotes.Remove(currentNote);
+
         }
 
         private void KeyWordSearch_SelectionChanged(object sender, RoutedEventArgs e)
